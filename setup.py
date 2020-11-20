@@ -8,13 +8,13 @@ else:
     long_description = 'amazon_buddy'
 
 setuptools.setup(
-    name="amazon_buddy",
-    version="0.0.30",
-    author="Kristof",
+    name="zs_amazon_buddy",
+    version="0.0.1",
+    author="Kristof & Zselter",
     description="python wrapper for the amazon_buddy npm package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/kkristof200/py_amazon_buddy",
+    url="https://github.com/Zselter07/py_amazon_buddy",
     packages=setuptools.find_packages(),
     install_requires=["jsoncodable", "Unidecode", "kcu", "requests", "beautifulsoup4"],
     classifiers=[
