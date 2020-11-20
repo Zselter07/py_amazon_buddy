@@ -117,11 +117,10 @@ class AmazonBuddy:
     @classmethod
     def get_trends(
         cls,
-
+        search_combinations: List[str],
         # url
         category: Optional[Union[Category, str]] = Category.ALL_DEPARTMENTS,
         locale: str = 'en_US',
-        search_letters: str = 'abcdefghijklmnopqrstuvwxyz',
 
         # request
         proxy: Optional[Union[str, List[str]]] = None,
@@ -135,10 +134,10 @@ class AmazonBuddy:
         suggestions = {}
         request = Request(proxy, user_agent, keep_cookies=True, debug=debug)
 
-        for char in search_letters:
-            suggestions[str(char)] = cls.__get_suggestions(
+        for search_word in search_combinations:
+            suggestions[search_word] = cls.__get_suggestions(
                 category,
-                str(char),
+                search_word,
                 locale,
                 max_results_per_letter,
                 request,
@@ -332,11 +331,11 @@ class AmazonBuddy:
         return None
 
     @staticmethod
-    def __get_suggestions(category: Category, letter: str, locale: str, max_results: int, request: Request, debug: bool) -> List[str]:
+    def __get_suggestions(category: Category, search_word: str, locale: str, max_results: int, request: Request, debug: bool) -> List[str]:
         import time
         from kcu import request
 
-        url = 'https://completion.amazon.com/api/2017/suggestions?lop={}&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias={}&ks=65&prefix={}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&_={}'.format(locale, category.value, letter, int(time.time()))
+        url = 'https://completion.amazon.com/api/2017/suggestions?lop={}&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias={}&ks=65&prefix={}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&_={}'.format(locale, category.value, search_word, int(time.time()))
         suggestions = []
 
         try:
